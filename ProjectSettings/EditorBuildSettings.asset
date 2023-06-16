@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MJB_Assets/MJB_Scenes/Main Menu.unity
     guid: a98c89e2113f7814b8779266c1092c83
-  - enabled: 0
-    path: Assets/SSB_Assets/SSB_Scenes/SSB_Scene.unity
-    guid: f543ce3630e5a894193216c69572c159
   - enabled: 1
     path: Assets/MJB_Assets/MJB_Scenes/Loading.unity
     guid: fc66b78e86a28d044b300a83a8b4abef
   - enabled: 1
     path: Assets/MJB_Assets/MJB_Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/SSB_Assets/SSB_Scenes/SSB_Scene.unity
+    guid: f543ce3630e5a894193216c69572c159
   m_configObjects: {}
