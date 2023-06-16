@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
     // 플레이어가 특정 위치까지 떨어지면 레그돌 후 종료한다.
     void FallDown()
     {
-        if (mainRigidbody.position.y < -10f)
+        if (mainRigidbody.position.y < -20f)
         {
             EnableRagdoll();
             GameManager.instance.GameOver();

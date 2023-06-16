@@ -13,7 +13,7 @@ public class Loading : MonoBehaviour
     void Start()
     {
         //비동기 씬 로딩 시작 다음
-        asyncOperation = SceneManager.LoadSceneAsync("Game");
+        asyncOperation = SceneManager.LoadSceneAsync("SSB_Scene");
 
         //씬이 완전히 로드된 후 자동으로 전화되지 않도록 설정
         asyncOperation.allowSceneActivation = false;
