@@ -55,7 +55,7 @@ public class SSB_Enemy_New : MonoBehaviour
         }
 
         //현재 state print
-        print("state :" + m_state);
+        print("state :" + m_state); 
     }
     //Idle에서 Move로 전환되는 애니메이션 처리를 하고싶다 -> 애니메이션 컨트롤러 필요
     //필요속성 : Animator Controller
@@ -160,8 +160,13 @@ public class SSB_Enemy_New : MonoBehaviour
 
     private void FallDown()
     {
-        anim.SetTrigger("FallDown");
+       
+    }
+
+    void SetStateMove()
+    {
         m_state = EnemyState.Move;
+        anim.SetTrigger("Move");
     }
 
     //2초뒤에 래그돌
@@ -184,10 +189,11 @@ public class SSB_Enemy_New : MonoBehaviour
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             print("충돌성공");
-            //충돌 애니메이션
-            //anim.SetTrigger("FallDown");
+            
             //상태를 Move로 전환한다
             m_state = EnemyState.FallDown;
+            anim.SetTrigger("FallDown");
+            Invoke("SetStateMove", 3);
             //Move 애니메이션
         }
         //충돌된게 Enemy라면 roar animation 재생 -> Move
