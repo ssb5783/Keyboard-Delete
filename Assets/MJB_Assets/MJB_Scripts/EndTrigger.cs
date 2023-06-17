@@ -10,5 +10,7 @@ public class EndTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         GameManager.instance.CompleteGame();
+        // 게임 오브젝트 플레이어를 삭제한다.
+        Destroy(other.gameObject);
     }
 }

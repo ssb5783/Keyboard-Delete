@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // 게임을 제 리스폰하고 싶다.
 public class GameManager : MonoBehaviour
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     {
         gameOverUI.SetActive(false);
         completeGameUI.SetActive(false);
+
     }
 
     //게임을 완료했을 때
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
         // 게임이 종료된다면 
         if (hasEndedGame == false)
         {
-        // 게임을 끝나지 않은 것으로 바꾸고
+            // 게임을 끝나지 않은 것으로 바꾸고
             hasEndedGame = true;
             // 게임 UI를 활성화 한다.
             gameOverUI.SetActive(true);
@@ -53,5 +55,22 @@ public class GameManager : MonoBehaviour
     {
         // 씬매니저로 재시작하고 활성화 한다.
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // 게임을 재시작하고 싶다.
+    public void Restart()
+    {
+        // 현재 로드 씬을 다시 로드하고싶다.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    // 게임을 종료하고 싶다.
+    public void Quit()
+    {
+        // 유니티 에디터가 플레이가 끝났다면 어플리케이션을 종료한다.
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

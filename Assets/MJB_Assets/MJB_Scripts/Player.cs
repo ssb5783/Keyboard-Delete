@@ -16,6 +16,7 @@ using UnityEngine;
 // 플레이어가 G 키를 누르면 자살 기능을 구현하고 싶다.
 // 플레이어가 Cntrl 키를 누르면 구르는 기능을 구현하고 싶다. - 구르기를 할 때 구르기 방향으로 간다.
 // 플레이어가 죽을때, 던질때, 점프할때 소리를 내고싶다.
+// 플레이어 점프를 구현하고 싶다.
 public class Player : MonoBehaviour
 {
     public float speed = 5f;
@@ -92,17 +93,17 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        moveVector = new Vector3(hAxis, 0, vAxis).normalized;
-
-        if (moveVector.magnitude >= 0.1f)
+        moveVector = new Vector3(hAxis, 0, vAxis);
+        Vector3 normalizedMoveVector = moveVector.normalized;
+        if (normalizedMoveVector.magnitude >= 0.1f)
         {
-            MoveSmooth(moveVector);
-
+            MoveSmooth(normalizedMoveVector);
         }
-        // 블랜드된 에니메이터를 발생시킨다.크기를 발생시킨다.
-        animator.SetFloat("isRunning", moveVector.magnitude);
-        
 
+        // 블랜드된 에니메이터를 발생시킨다.크기를 발생시킨다. 속도를 제어하고 시간마다 변경한다.
+        float clamp01Velocity = Mathf.Clamp01(moveVector.magnitude);
+        // 벡터 속도의 크기를 강제로 0 ~ 1로 변경한다.
+        animator.SetFloat("isRunning", clamp01Velocity, 0.08f, Time.deltaTime);
     }
 
     void MoveSmooth(Vector3 moveVector)
@@ -124,18 +125,19 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
+
         // 무한 점프를 막아야 한다. 점프 버튼을 누르고 점프를 하지 않았을 때, 구르기 도중에 실행되지 않아야 한다.
         if (getJumpingButton && !isJumping && !isRolling)
         {
             mainRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            animator.SetBool("isJumped", true);
+            animator.SetBool("isJumping", true);
+            animator.SetTrigger("isJumped");
             // 활동 소리를 플레이 한다.
             activeSoundEffect.Play();
-            animator.SetTrigger("isJumping");
             isJumping = true;
         }
-    }    
-    
+    }
+
     void Roll()
     {
         // shift키를 누르고 점프를 하지 않았을 때 실행한다. 구르기 도중에 실행되지 않는다.
@@ -162,9 +164,9 @@ public class Player : MonoBehaviour
     // 바닥에 닿았을 때 점프를 초기화 한다.
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Trap")
         {
-            animator.SetBool("isJumped", false);
+            animator.SetBool("isJumping", false);
             isJumping = false;
 
         }
