@@ -4,11 +4,14 @@ using UnityEngine;
 
 // 불렛이 땅에 있거나 벽에 부딪히면 삭제시키고 싶다.
 // 불렛이 다으면 그 힘 만큼 힘을주고 싶다.
+// 불렛이 생성되면 앞으로 힘을주고 싶다.
 public class ChickenBullet : MonoBehaviour
 {
     // 불렛으로 얼마나 데미지를 주는가
     public int damage;
     public float power = 10000f;
+    // 불렛의 속도
+    public float speed = 2f;
 
     // 불렛의 속도 값을 가져오고 싶다.
     private Rigidbody rigid;
@@ -17,6 +20,12 @@ public class ChickenBullet : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         
+    }
+
+    private void Start()
+    {
+        // 카메라 방향으로 던지고 싶다.
+        rigid.AddForce(Camera.main.gameObject.transform.forward * speed, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)

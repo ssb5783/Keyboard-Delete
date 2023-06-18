@@ -3213,7 +3213,7 @@ PrefabInstance:
     - target: {fileID: 8188660019146908579, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: chickenBulletFactory
       value: 
-      objectReference: {fileID: 971721196633985205, guid: 342432f25e571034e92d401cb3c3d7eb, type: 3}
+      objectReference: {fileID: 8172020341054223126, guid: 342432f25e571034e92d401cb3c3d7eb, type: 3}
     - target: {fileID: 8514424100392230877, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_RootOrder
       value: 4
