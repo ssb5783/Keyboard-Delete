@@ -398,7 +398,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1962934272
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -791,7 +791,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.124602325, y: 0.0035184058, z: -0.0004418477, w: 0.99220043}
+  m_LocalRotation: {x: 0.124602325, y: 0.0035183888, z: -0.00044184556, w: 0.99220043}
   m_LocalPosition: {x: 0, y: 3.579, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1649,7 +1649,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1966223922
+    rgba: 4281479730
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1784,7 +1784,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1966223922
+    rgba: 4281479730
   m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1939,6 +1939,7 @@ GameObject:
   - component: {fileID: 1623717914}
   - component: {fileID: 1623717913}
   - component: {fileID: 1623717912}
+  - component: {fileID: 1623717915}
   m_Layer: 5
   m_Name: Die Backgorund
   m_TagString: Untagged
@@ -2005,6 +2006,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1623717915
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623717911}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ae1fe4896c8088a4281f498caf0df00b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1634524370
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,7 +2377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1796858138
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2857,7 +2879,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1962934272
+    rgba: 4278190080
   m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3098,11 +3120,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8188660017471732268, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0035184016
+      value: 0.003518393
       objectReference: {fileID: 0}
     - target: {fileID: 8188660017471732268, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00044184717
+      value: -0.00044184612
       objectReference: {fileID: 0}
     - target: {fileID: 8188660017630022884, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3138,11 +3160,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8188660018119469037, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000008439323
+      value: 0.0000000084393195
       objectReference: {fileID: 0}
     - target: {fileID: 8188660018119469037, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000016711535
+      value: -0.0000000016711529
       objectReference: {fileID: 0}
     - target: {fileID: 8188660018889504818, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: mainCamera
