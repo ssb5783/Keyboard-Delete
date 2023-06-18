@@ -42,6 +42,7 @@ public class PlayerFire : MonoBehaviour
     {
         initInput();
         Fire();
+
     }
 
     void initInput()
@@ -61,15 +62,14 @@ public class PlayerFire : MonoBehaviour
             if (isFiring)
             {
                 MakeChickenBullet();
-
-                // 던질때 애니메이션이 발생한다.
-                animator.SetTrigger("isThrowing");
-
                 // 발사 시간을 초기화한다.
                 currentTime = 0;
+                animator.SetTrigger("isThrowing");
+                // 발사되었다.
             }
         }
     }
+
 
     // 불렛을 2초 마다 생성해서 딜레이를 주어 생성하고 싶다.
     void MakeChickenBullet()

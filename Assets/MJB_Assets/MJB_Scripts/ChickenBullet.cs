@@ -21,7 +21,6 @@ public class ChickenBullet : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         
     }
-
     private void Start()
     {
         // 카메라 방향으로 던지고 싶다.
