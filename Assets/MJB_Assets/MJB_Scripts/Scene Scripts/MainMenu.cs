@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         // 카메라 씬을 1초 뒤에 시작하고 싶다.
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadScene(1);
     }
 
     // 게임을 종료하고 싶다.
