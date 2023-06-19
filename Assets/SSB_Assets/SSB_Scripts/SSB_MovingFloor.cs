@@ -10,12 +10,16 @@ public class SSB_MovingFloor : MonoBehaviour
     public float FirstTime = 3;
     public float SecondTime = 6;
     float currentTime;
-    public Transform MovingFloorReach;
-    Vector3 origin;
+
+    public Transform lower;
+    public Transform upper;
+
+    Rigidbody playerRigidbody;
+    
     // Start is called before the first frame update
     void Start()
     {
-        origin = transform.position;
+        playerRigidbody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -24,19 +28,38 @@ public class SSB_MovingFloor : MonoBehaviour
         //3초 뒤에 x축 방향으로 10만큼 이동하고 싶다
         //1.시간이 흐르고
         currentTime += Time.deltaTime;
-        //2.현재시간이 첫번째시간을 지나면
-        if(FirstTime < currentTime)
+        
+        //2.현재시간이 3초보다 작으면
+        if(currentTime < FirstTime)
         {
-            //3.MovingFloorReach까지 Lerp로 이동한다.
-            transform.position = Vector3.Lerp(gameObject.transform.position, MovingFloorReach.position, 0.05f);
+            //3.LowerPosition까지 Lerp로 이동한다.
+            transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, lower.localPosition, 0.05f);
         }
         //4.현재시간이 두번째시간을 지나면
-        if(SecondTime < currentTime)
+        else if(currentTime < SecondTime)
         {
             //5.처음 자리로 이동한다.
-            transform.position = Vector3.Lerp(MovingFloorReach.position, origin, 0.05f);
-
+            transform.localPosition = Vector3.Lerp(transform.localPosition, upper.localPosition, 0.05f);
         }
-        
+        else
+        {
+            currentTime = 0;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            playerRigidbody.transform.parent = transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            playerRigidbody.transform.parent = null;
+        }
     }
 }

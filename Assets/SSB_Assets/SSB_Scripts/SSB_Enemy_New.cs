@@ -10,16 +10,19 @@ public class SSB_Enemy_New : MonoBehaviour
     //Move - 일정거리안에 있다면 플레이어 쪽으로 달려간다
     //Attack - 발차기를 한다 
     //Die - 래그돌
-    enum EnemyState
+    public enum EnemyState
     {
         Idle,
         Move,
         Attack,
         FallDown,
-        Die
+        SetStateMove,
+        Die,
+        Roar,
+
     };
 
-    EnemyState m_state = EnemyState.Idle; //초기값 셋팅
+    public EnemyState m_state = EnemyState.Idle; //초기값 셋팅
 
     //애니메이션 넣기 -> 필요한 것 애니메이터 컨트롤러 -> 애니메이터
     Animator anim;
@@ -49,8 +52,14 @@ public class SSB_Enemy_New : MonoBehaviour
             case EnemyState.FallDown:
                 FallDown();
                 break;
+            case EnemyState.SetStateMove:
+                SetStateMove();
+                break;
             case EnemyState.Die:
                 Die();
+                break;
+            case EnemyState.Roar:
+                Roar();
                 break;
         }
 
@@ -131,42 +140,31 @@ public class SSB_Enemy_New : MonoBehaviour
             print("attack!");
             //애니메이션 넣기
             anim.SetTrigger("Attack");
-            currentTime += Time.deltaTime;
-            //3초가 지나면 상태가 변경된다.
-            if(currentTime > animTime)
-            {
-                //상태를 Move로 변경
-                m_state = EnemyState.Move;
-                anim.SetTrigger("Move");
-            }
+            m_state = EnemyState.FallDown;
+            anim.SetTrigger("FallDown");
 
         }
-        //타겟이 공격범위를 벗어나면 상태를 이동으로 전환하고싶다
-        //타겟과 나의 거리
-        float distance = Vector3.Distance(target.position, transform.position);
-        if(distance > attackRange + 10)
-        {
-            
-            m_state = EnemyState.Move; //공격거리보다 타겟과의 거리가 커지면 Move로 전환
-            anim.SetTrigger("Move");
-        }
 
-        if(distance > attackRange + 15)
-        {
-            m_state = EnemyState.Idle;
-            anim.SetTrigger("Idle");
-        }
     }
 
     private void FallDown()
     {
-       
+        print("FalllDown check");
+        m_state = EnemyState.SetStateMove;
+        anim.SetTrigger("Idle");
     }
 
     void SetStateMove()
     {
-        m_state = EnemyState.Move;
-        anim.SetTrigger("Move");
+        //2초 동안 누워있다가 일어난다
+        currentTime += Time.deltaTime;
+        if(currentTime > 2)
+        {
+            m_state = EnemyState.Move;
+            anim.SetTrigger("Move");
+            currentTime = 0;
+
+        }
     }
 
     //2초뒤에 래그돌
@@ -175,6 +173,13 @@ public class SSB_Enemy_New : MonoBehaviour
         //Die - 래그돌
         print("Die!");
         Destroy(gameObject,3);
+    }
+
+    private void Roar()
+    {
+        //Roar - 성공 시
+        print("Roar!");
+        anim.SetTrigger("Roar");
     }
 
     private void OnCollisionEnter(Collision collision)
