@@ -56,8 +56,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        // 레그돌 초기 비활성화
+        // 레그돌 초기 비활성화g
         DisableRagdoll();
+        
     }
 
     // 충돌 물리를 제어하고 싶다.
@@ -70,12 +71,12 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         FreezeRotation();
+        Move();
     }
 
     void Update()
     {
         InitInput();
-        Move();
         Jump();
         Suicide();
         Roll();
@@ -171,7 +172,7 @@ public class Player : MonoBehaviour
 
         }
         //적이랑 충돌하면 체력을 깍는다.
-        if (collision.gameObject.tag == "Trap")
+        if (collision.gameObject.tag == "Trap" || collision.gameObject.tag == "Enemy")
         {
             Vector3 collisionVector = transform.position - collision.transform.position;
 
@@ -229,7 +230,8 @@ public class Player : MonoBehaviour
             GameManager.instance.GameOver();
         }
     }
-    private void DisableRagdoll()
+
+    void DisableRagdoll()
     {
         // 플레이어 하위 바디, 충돌체 접근
         ApproachSubPhyscisCollision(false, true);
@@ -238,7 +240,7 @@ public class Player : MonoBehaviour
 
     }
 
-    private void EnableRagdoll()
+    void EnableRagdoll()
     {
         ApproachSubPhyscisCollision(true, false);
         ApproachParentPhysicsCollision(false, true);
@@ -265,4 +267,5 @@ public class Player : MonoBehaviour
         mainColider.enabled = isColliderEnabled;
         mainRigidbody.isKinematic = isKinematicEnabled;
     }
+
 }
