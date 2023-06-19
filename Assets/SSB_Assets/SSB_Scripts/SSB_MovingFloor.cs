@@ -14,12 +14,12 @@ public class SSB_MovingFloor : MonoBehaviour
     public Transform lower;
     public Transform upper;
 
-    Rigidbody playerRigidbody;
+    Rigidbody rb;
     
     // Start is called before the first frame update
     void Start()
     {
-        playerRigidbody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -51,7 +51,8 @@ public class SSB_MovingFloor : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            playerRigidbody.transform.parent = transform;
+            collision.gameObject.GetComponent<Rigidbody>();
+            collision.transform.parent = transform;
         }
     }
 
@@ -59,7 +60,7 @@ public class SSB_MovingFloor : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            playerRigidbody.transform.parent = null;
+            collision.transform.parent = null;
         }
     }
 }
