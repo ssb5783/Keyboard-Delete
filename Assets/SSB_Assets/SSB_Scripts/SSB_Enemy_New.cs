@@ -138,6 +138,7 @@ public class SSB_Enemy_New : MonoBehaviour
         {
             currentTime = 0;
             print("attack!");
+            //플레이어 방향으로 힘
             //애니메이션 넣기
             anim.SetTrigger("Attack");
             m_state = EnemyState.FallDown;
