@@ -150,9 +150,14 @@ public class SSB_Enemy_New : MonoBehaviour
 
     private void FallDown()
     {
+        currentTime += Time.deltaTime;
+        if(currentTime > 2)
+        {
         print("FalllDown check");
         m_state = EnemyState.SetStateMove;
         anim.SetTrigger("Idle");
+            currentTime = 0;
+        }
     }
 
     void SetStateMove()
