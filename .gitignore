@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/MJB_Assets/MJB_Animation/Player_FBX.fbx
 Assets/MJB_Assets/MJB_Animation/Player_FBX.fbx.meta
+Assets/Import/Terrain_Dristibute_GN/textures/Terrain_specularGlossiness_8.png.meta
+Assets/Import/Terrain_Dristibute_GN/textures/Terrain_specularGlossiness_8.png
