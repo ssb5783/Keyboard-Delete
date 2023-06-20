@@ -17,6 +17,7 @@ using UnityEngine;
 // 플레이어가 Cntrl 키를 누르면 구르는 기능을 구현하고 싶다. - 구르기를 할 때 구르기 방향으로 간다.
 // 플레이어가 죽을때, 던질때, 점프할때 소리를 내고싶다.
 // 플레이어 점프를 구현하고 싶다.
+// 플레이어가 트랩에 부딪혔을 때 움직이지 못하고 안 구르게 만들고 싶다.
 public class Player : MonoBehaviour
 {
     public float speed = 5f;
@@ -32,33 +33,27 @@ public class Player : MonoBehaviour
     bool getSuicideKey;
     bool isRolling;
     bool isJumping;
+    // 플레이어가 땅에 있는가?
+    bool isGrounded;
 
-    private Rigidbody[] ragdollRigidbodies;
-    private Collider[] ragdollColliders;
     private Vector3 moveVector;
     private Rigidbody mainRigidbody;
     private Animator animator;
-    public GameObject playerRig;
-    public CapsuleCollider mainColider;
     public Transform mainCamera;
 
     // 점프 오디오 소스
     public AudioSource activeSoundEffect;
-    public AudioSource deathSoundEffect;
 
     void Awake()
     {
-        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
         mainRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
     }
 
     void Start()
     {
-        // 레그돌 초기 비활성화g
-        DisableRagdoll();
-        
+        PlayerRagdoll.instance.DisableRagdoll();
     }
 
     // 충돌 물리를 제어하고 싶다.
@@ -96,6 +91,8 @@ public class Player : MonoBehaviour
     {
         moveVector = new Vector3(hAxis, 0, vAxis);
         Vector3 normalizedMoveVector = moveVector.normalized;
+
+
         if (normalizedMoveVector.magnitude >= 0.1f)
         {
             MoveSmooth(normalizedMoveVector);
@@ -104,7 +101,10 @@ public class Player : MonoBehaviour
         // 블랜드된 에니메이터를 발생시킨다.크기를 발생시킨다. 속도를 제어하고 시간마다 변경한다.
         float clamp01Velocity = Mathf.Clamp01(moveVector.magnitude);
         // 벡터 속도의 크기를 강제로 0 ~ 1로 변경한다.
+
+        //땅에 있을때만 방향 키를 눌렀을 때 애니메이션을 실행한다.
         animator.SetFloat("isRunning", clamp01Velocity, 0.08f, Time.deltaTime);
+
     }
 
     void MoveSmooth(Vector3 moveVector)
@@ -126,7 +126,6 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-
         // 무한 점프를 막아야 한다. 점프 버튼을 누르고 점프를 하지 않았을 때, 구르기 도중에 실행되지 않아야 한다.
         if (getJumpingButton && !isJumping && !isRolling)
         {
@@ -136,19 +135,23 @@ public class Player : MonoBehaviour
             // 활동 소리를 플레이 한다.
             activeSoundEffect.Play();
             isJumping = true;
+            // 땅에 없다.
+            isGrounded = false;
         }
     }
 
     void Roll()
     {
-        // shift키를 누르고 점프를 하지 않았을 때 실행한다. 구르기 도중에 실행되지 않는다.
-        if (getRollingKey && !isJumping && moveVector != Vector3.zero && !isRolling)
+        // shift키를 누르고, 점프를 하지 않았고, 앞으로 안가고, 구르지 않았을 때 구른다. 땅에 있을때
+        if (getRollingKey && !isJumping && moveVector != Vector3.zero && !isRolling && isGrounded)
         {
 
             speed *= 2;
             animator.SetTrigger("isRolling");
             activeSoundEffect.Play();
             isRolling = true;
+            // 땅에있다.
+            isGrounded = true;
 
             // 구르기 실행 시간차를 생성하여 연속 누르는 것을 막는다.
             Invoke("RollOut", 1.5f);
@@ -165,12 +168,21 @@ public class Player : MonoBehaviour
     // 바닥에 닿았을 때 점프를 초기화 한다.
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Trap")
+        if (collision.gameObject.tag == "Floor")
         {
             animator.SetBool("isJumping", false);
             isJumping = false;
-
+            //땅에 있다.
+            isGrounded = true;
         }
+
+        if (collision.gameObject.tag == "Trap")
+        {
+            animator.SetBool("isJumping", false);
+            isJumping = false;
+            isGrounded = false;
+        }
+
         //적이랑 충돌하면 체력을 깍는다.
         if (collision.gameObject.tag == "Trap" || collision.gameObject.tag == "Enemy")
         {
@@ -182,9 +194,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(OnDamage(collisionVector));
 
             }
-
         }
-
     }
 
     // 코루틴을 사용하여 피격 기능을 구현한다.
@@ -206,7 +216,7 @@ public class Player : MonoBehaviour
         {
             //print("[UI] 죽는 로직이 생성되고 다시 시작한다.");
             mainRigidbody.AddForce(collisionVector * 5, ForceMode.Impulse);
-            EnableRagdoll();
+            PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
         }
     }
@@ -216,7 +226,7 @@ public class Player : MonoBehaviour
     {
         if (getSuicideKey)
         {
-            EnableRagdoll();
+            PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
         }
     }
@@ -226,46 +236,8 @@ public class Player : MonoBehaviour
     {
         if (mainRigidbody.position.y < -20f)
         {
-            EnableRagdoll();
+            PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
         }
     }
-
-    void DisableRagdoll()
-    {
-        // 플레이어 하위 바디, 충돌체 접근
-        ApproachSubPhyscisCollision(false, true);
-        ApproachParentPhysicsCollision(true, false);
-        animator.enabled = true;
-
-    }
-
-    void EnableRagdoll()
-    {
-        ApproachSubPhyscisCollision(true, false);
-        ApproachParentPhysicsCollision(false, true);
-        deathSoundEffect.Play();
-        animator.enabled = false;
-    }
-
-    // 모든 하위 부위의 Collider와 Rigidbody에 접근하고 싶다.
-    private void ApproachSubPhyscisCollision(bool isColliderEnabled, bool isKinematicEnabled)
-    {
-        foreach (var collider in ragdollColliders)
-        {
-            collider.enabled = isColliderEnabled;
-        }
-
-        foreach (var rigidBody in ragdollRigidbodies)
-        {
-            // 모든 하위 부위가 물리적 힘을 받지 않는가? - false 받는다.
-            rigidBody.isKinematic = isKinematicEnabled;
-        }
-    }
-    private void ApproachParentPhysicsCollision(bool isColliderEnabled, bool isKinematicEnabled)
-    {
-        mainColider.enabled = isColliderEnabled;
-        mainRigidbody.isKinematic = isKinematicEnabled;
-    }
-
 }
