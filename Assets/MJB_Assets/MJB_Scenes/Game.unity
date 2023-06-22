@@ -854,7 +854,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.124602325, y: 0.0035183888, z: -0.00044184556, w: 0.99220043}
+  m_LocalRotation: {x: 0.124602325, y: 0.0035184058, z: -0.0004418477, w: 0.99220043}
   m_LocalPosition: {x: 0, y: 3.579, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2340,7 +2340,7 @@ Transform:
   m_GameObject: {fileID: 1693608190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.23, y: 19.64, z: -0.48}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.6386187, y: 1, z: 1.6299155}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3183,11 +3183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8188660017471732268, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.003518393
+      value: 0.0035184016
       objectReference: {fileID: 0}
     - target: {fileID: 8188660017471732268, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00044184612
+      value: -0.00044184717
       objectReference: {fileID: 0}
     - target: {fileID: 8188660017630022884, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3246,9 +3246,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8188660018621834171}
     - target: {fileID: 8188660018889504818, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
+      propertyPath: timeToResetBones
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8188660018889504818, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: activeSoundEffect
       value: 
       objectReference: {fileID: 8188660018621834170}
+    - target: {fileID: 8188660018889504818, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
+      propertyPath: standingUpClipName
+      value: Stand Up
+      objectReference: {fileID: 0}
     - target: {fileID: 8188660018939973345, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3545,4 +3553,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc86059b8131a04eaa36718de944820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 1
+  maxHP: 2
+--- !u!136 &8188660018621834179 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 8188660018889504819, guid: 861e66e9e825dde45bc4404cefa97b53, type: 3}
+  m_PrefabInstance: {fileID: 8188660018621834167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8188660018621834186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8188660018621834168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17644773e4d0e0a41a8e73a54c4e8866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainColider: {fileID: 8188660018621834179}
+  deathSoundEffect: {fileID: 8188660018621834171}
+  timeToWakeUp: 5
+  standingUpClipName: Stand Up
+  timeToResetBones: 0.5
+  elaspedResetBonesTime: 1

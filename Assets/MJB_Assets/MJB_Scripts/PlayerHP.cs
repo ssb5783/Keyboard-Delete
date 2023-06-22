@@ -10,7 +10,7 @@ public class PlayerHP : MonoBehaviour
     // hp 값
     int hp;
     // 최대 체력을 만들고 싶다.
-    public int maxHP = 1;
+    public int maxHP = 2;
 
     private void Awake()
     {

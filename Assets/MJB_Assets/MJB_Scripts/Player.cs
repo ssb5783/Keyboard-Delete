@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     public float speed = 5f;
     public float jumpPower = 5f;
 
+    //일정 시간이 되면 일어난다
+    public float timeToWakeUp = 3f;
     float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     float hAxis;
@@ -43,17 +45,13 @@ public class Player : MonoBehaviour
 
     // 점프 오디오 소스
     public AudioSource activeSoundEffect;
+    private bool isRagdolled;
 
     void Awake()
     {
         mainRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-    }
-
-    void Start()
-    {
-        PlayerRagdoll.instance.DisableRagdoll();
     }
 
     // 충돌 물리를 제어하고 싶다.
@@ -76,6 +74,7 @@ public class Player : MonoBehaviour
         Suicide();
         Roll();
         FallDown();
+        WakeUp();
     }
 
     void InitInput()
@@ -206,17 +205,19 @@ public class Player : MonoBehaviour
         collisionVector += Vector3.up;
 
         PlayerHP.instance.HP--;
+
+            PlayerRagdoll.instance.EnableRagdoll();
+        isRagdolled = true;
         if (PlayerHP.instance.HP > 0)
         {
             //print("[애니메이션] 플레이어가 넘어진다.");
             mainRigidbody.AddForce(collisionVector * 5, ForceMode.Impulse);
-        }
 
+        }
         else
         {
             //print("[UI] 죽는 로직이 생성되고 다시 시작한다.");
             mainRigidbody.AddForce(collisionVector * 5, ForceMode.Impulse);
-            PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
         }
     }
@@ -240,4 +241,20 @@ public class Player : MonoBehaviour
             GameManager.instance.GameOver();
         }
     }
+
+    void WakeUp()
+    {
+        timeToWakeUp -= Time.deltaTime;
+        if (timeToWakeUp <= 0)
+        {
+            PlayerRagdoll.instance.TagPositionToHips();
+            PlayerRagdoll.instance.PutBoneTransform(PlayerRagdoll.instance.ragdollBoneTransform);
+            PlayerRagdoll.instance.ResetBones();
+            PlayerRagdoll.instance.elaspedResetBonesTime = 0;
+            timeToWakeUp = 3f;
+            isRagdolled = false;
+        }
+
+    }
+
 }
