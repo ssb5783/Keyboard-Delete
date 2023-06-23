@@ -242,10 +242,11 @@ public class Player : MonoBehaviour
             GameManager.instance.GameOver();
         }
     }
+
     void FallDown()
     {
-        // 낭떨어지에서 떨어질 때
-        if (mainRigidbody.position.y < FALL_OFF_MAX_VALUE)
+        // 낭떨어지에서 떨어질 때, 일정 속력 이상일 때
+        if (mainRigidbody.position.y < FALL_OFF_MAX_VALUE || mainRigidbody.velocity.y < -20)
         {
             PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
