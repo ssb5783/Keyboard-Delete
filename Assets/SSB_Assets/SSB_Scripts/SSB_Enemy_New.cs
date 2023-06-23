@@ -145,6 +145,10 @@ public class SSB_Enemy_New : MonoBehaviour
             m_state = EnemyState.FallDown;
             anim.SetTrigger("FallDown");
 
+            Vector3 dir = target.gameObject.transform.position - transform.position;
+            dir.Normalize();
+            target.gameObject.GetComponent<Rigidbody>().AddForce(dir * 10, ForceMode.Impulse);
+
         }
 
     }
@@ -200,7 +204,7 @@ public class SSB_Enemy_New : MonoBehaviour
         //충돌된게  Player라면 FallDown animation 재생 -> Move
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.forward * 5;
+           
             print("충돌성공");
             
             //상태를 Move로 전환한다

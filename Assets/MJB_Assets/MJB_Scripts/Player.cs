@@ -132,7 +132,8 @@ public class Player : MonoBehaviour
         //카메라의 회전 방향을 고려한 앞 방향으로 이동을 하고싶다.
         Vector3 cameraMoveDir = Quaternion.Euler(ZERO_VALUE, targetAngle, ZERO_VALUE) * Vector3.forward;
 
-        transform.position += cameraMoveDir * speed * Time.deltaTime;
+        //transform.position += cameraMoveDir * speed * Time.deltaTime;
+        mainRigidbody.MovePosition(transform.position + cameraMoveDir * speed * Time.deltaTime);
     }
 
     void Jump()
@@ -201,7 +202,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == ENEMY_NAME)
         {
             // 물체의 속도가 일정 이상일 때 데미지를 입는다.
-            if (collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
+            if (collision.rigidbody && collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
             {
                 StartCoroutine(OnDamage(collisionVector));
             }
