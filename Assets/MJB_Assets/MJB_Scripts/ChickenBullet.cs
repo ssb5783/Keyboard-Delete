@@ -38,9 +38,11 @@ public class ChickenBullet : MonoBehaviour
         }
 
         // 충돌 물체에게 불렛의 속도 만큼 파워를 줘서 넛백 시키고 싶다.
-        if (rigid == null)
+        if (rigid)
         {
-            collision.rigidbody.AddForce(rigid.velocity * power, ForceMode.VelocityChange); 
+                collision.rigidbody.AddForce(rigid.velocity * power, ForceMode.VelocityChange);
+
+  
         }
 
     }
