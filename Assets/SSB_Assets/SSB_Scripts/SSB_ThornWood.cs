@@ -18,7 +18,7 @@ public class SSB_ThornWood : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(rb.velocity);
+        //print(rb.velocity);
         transform.position = origin;//첫번째 포지션을 기억한다
         rb.MoveRotation(rb.rotation * Quaternion.Euler(Vector3.up * speed * Time.deltaTime));
     }
