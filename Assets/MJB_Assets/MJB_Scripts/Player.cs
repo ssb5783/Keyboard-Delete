@@ -91,19 +91,22 @@ public class Player : MonoBehaviour
         moveVector = new Vector3(hAxis, 0, vAxis);
         Vector3 normalizedMoveVector = moveVector.normalized;
 
-
-        if (normalizedMoveVector.magnitude >= 0.1f)
+        // 레그돌, 점프 하지 않았을때 움직일 수 있게 한다.
+        if (!isRagdolled)
         {
-            MoveSmooth(normalizedMoveVector);
+            if (normalizedMoveVector.magnitude >= 0.1f)
+            {
+                MoveSmooth(normalizedMoveVector);
+            }
+
+            // 블랜드된 에니메이터를 발생시킨다.크기를 발생시킨다. 속도를 제어하고 시간마다 변경한다.
+            float clamp01Velocity = Mathf.Clamp01(moveVector.magnitude);
+            // 벡터 속도의 크기를 강제로 0 ~ 1로 변경한다.
+
+            //땅에 있을때만 방향 키를 눌렀을 때 애니메이션을 실행한다.
+            animator.SetFloat("isRunning", clamp01Velocity, 0.08f, Time.deltaTime);
+
         }
-
-        // 블랜드된 에니메이터를 발생시킨다.크기를 발생시킨다. 속도를 제어하고 시간마다 변경한다.
-        float clamp01Velocity = Mathf.Clamp01(moveVector.magnitude);
-        // 벡터 속도의 크기를 강제로 0 ~ 1로 변경한다.
-
-        //땅에 있을때만 방향 키를 눌렀을 때 애니메이션을 실행한다.
-        animator.SetFloat("isRunning", clamp01Velocity, 0.08f, Time.deltaTime);
-
     }
 
     void MoveSmooth(Vector3 moveVector)
@@ -206,7 +209,7 @@ public class Player : MonoBehaviour
 
         PlayerHP.instance.HP--;
 
-            PlayerRagdoll.instance.EnableRagdoll();
+        PlayerRagdoll.instance.EnableRagdoll();
         isRagdolled = true;
         if (PlayerHP.instance.HP > 0)
         {
@@ -245,7 +248,7 @@ public class Player : MonoBehaviour
     void WakeUp()
     {
         timeToWakeUp -= Time.deltaTime;
-        if (timeToWakeUp <= 0)
+        if (timeToWakeUp <= 0 && isRagdolled)
         {
             PlayerRagdoll.instance.TagPositionToHips();
             PlayerRagdoll.instance.PutBoneTransform(PlayerRagdoll.instance.ragdollBoneTransform);
