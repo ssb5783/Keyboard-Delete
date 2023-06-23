@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.jbooth.microsplat.core": {
+      "version": "file:com.jbooth.microsplat.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.cinemachine": {
       "version": "2.8.9",
       "depth": 0,

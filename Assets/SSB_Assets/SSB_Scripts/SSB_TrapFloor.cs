@@ -42,7 +42,7 @@ public class SSB_TrapFloor : MonoBehaviour
         }
         
         //3초가 지나면
-        if (currentTime > 3)
+        if (currentTime > 2)
         {   //각도가 변한다.
             transform.Rotate(Vector3.right * Time.deltaTime * 50);
 

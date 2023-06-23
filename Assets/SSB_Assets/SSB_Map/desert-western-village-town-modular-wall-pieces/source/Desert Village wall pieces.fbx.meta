@@ -3,7 +3,57 @@ guid: 2e4a89a93731f0f46b949759167ebf7f
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Brick_StoneCladding8_512_albedo
+    second: {fileID: 2800000, guid: 1717a5a2f3267f442adbb78a35af2a6e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Paint_Rusted2_512_albedo
+    second: {fileID: 2800000, guid: e9f5297578caffd48bd91d2a7ae609b2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Paint_Rusted2_512_height
+    second: {fileID: 2800000, guid: d80f965bf317b3f47af1e825848975f2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Rope_NaturalSisal_512_albedo
+    second: {fileID: 2800000, guid: 00293df5c017cf84aae0d617fcb8d87d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_WoodOldRough3_512_albedo
+    second: {fileID: 2800000, guid: 21790d57d530fd24087fc10e50bfced6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_WoodOldRough3_512_height
+    second: {fileID: 2800000, guid: 61c6b5eb395514a439c266d61052fb5d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Wood_Rough2_512_albedo
+    second: {fileID: 2800000, guid: 6f72822b6b85b2243b191314d3964826, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_Wood_Rough2_512_height
+    second: {fileID: 2800000, guid: 43f2d681c84949a4fbcf5ce10c3b0d80, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: metal texture
+    second: {fileID: 2800000, guid: 444f32a8999e9214ca439509288b5b22, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: scratched window texture
+    second: {fileID: 2800000, guid: 1486a1e2caf71ee4fa789e721b14a798, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

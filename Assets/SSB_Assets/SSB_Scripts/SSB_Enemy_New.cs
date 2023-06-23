@@ -150,9 +150,14 @@ public class SSB_Enemy_New : MonoBehaviour
 
     private void FallDown()
     {
+        currentTime += Time.deltaTime;
+        if(currentTime > 2)
+        {
         print("FalllDown check");
         m_state = EnemyState.SetStateMove;
         anim.SetTrigger("Idle");
+            currentTime = 0;
+        }
     }
 
     void SetStateMove()
@@ -205,6 +210,7 @@ public class SSB_Enemy_New : MonoBehaviour
         //충돌된게 Enemy라면 roar animation 재생 -> Move
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            
             print("Enemy끼리 부딪힘");
             anim.SetTrigger("FallDown");
             //상태를 Move로 전환한다
