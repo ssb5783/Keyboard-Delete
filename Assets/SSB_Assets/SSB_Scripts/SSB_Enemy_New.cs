@@ -210,6 +210,7 @@ public class SSB_Enemy_New : MonoBehaviour
         //충돌된게 Enemy라면 roar animation 재생 -> Move
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            
             print("Enemy끼리 부딪힘");
             anim.SetTrigger("FallDown");
             //상태를 Move로 전환한다

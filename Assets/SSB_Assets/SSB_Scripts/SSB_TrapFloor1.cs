@@ -29,7 +29,7 @@ public class SSB_TrapFloor1 : MonoBehaviour
         if (touch)
         {
             //회전을 시킨다
-            transform.Rotate(Vector3.right * Time.deltaTime * 50);
+            transform.Rotate(-Vector3.right * Time.deltaTime * 50);
         }
 
         //print(transform.rotation.x);
@@ -44,7 +44,7 @@ public class SSB_TrapFloor1 : MonoBehaviour
         //3초가 지나면
         if (currentTime > 3)
         {   //각도가 변한다.
-            transform.Rotate(-Vector3.right * Time.deltaTime * 50);
+            transform.Rotate(Vector3.right * Time.deltaTime * 50);
 
             //만약 각도가 0도가 되면
             if(transform.rotation.x >= 0)
