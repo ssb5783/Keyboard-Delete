@@ -117,6 +117,7 @@ public class SSB_Enemy_New : MonoBehaviour
             speed = 10; //속도를  빠르게 변화시키고
             cc.SimpleMove(dir * speed);
 
+
             m_state = EnemyState.Attack;
         }
 
@@ -199,6 +200,7 @@ public class SSB_Enemy_New : MonoBehaviour
         //충돌된게  Player라면 FallDown animation 재생 -> Move
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.forward * 5;
             print("충돌성공");
             
             //상태를 Move로 전환한다
