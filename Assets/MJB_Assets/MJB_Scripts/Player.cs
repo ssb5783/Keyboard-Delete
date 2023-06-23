@@ -25,18 +25,20 @@ public class Player : MonoBehaviour
 
     //일정 시간이 되면 일어난다
     public float timeToWakeUp = 3f;
-    float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
-    float hAxis;
-    float vAxis;
+    private float turnSmoothTime = 0.1f;
+    private float turnSmoothVelocity;
+    private float hAxis;
+    private float vAxis;
 
-    bool getJumpingButton;
-    bool getRollingKey;
-    bool getSuicideKey;
-    bool isRolling;
-    bool isJumping;
+    private bool getJumpingButton;
+    private bool getRollingKey;
+    private bool getSuicideKey;
+    private bool isRolling;
+    private bool isJumping;
     // 플레이어가 땅에 있는가?
-    bool isGrounded;
+    private bool isGrounded;
+    private bool isRagdolled;
+    private bool isFalling;
 
     private Vector3 moveVector;
     private Rigidbody mainRigidbody;
@@ -45,7 +47,6 @@ public class Player : MonoBehaviour
 
     // 점프 오디오 소스
     public AudioSource activeSoundEffect;
-    private bool isRagdolled;
 
     void Awake()
     {
@@ -91,8 +92,8 @@ public class Player : MonoBehaviour
         moveVector = new Vector3(hAxis, 0, vAxis);
         Vector3 normalizedMoveVector = moveVector.normalized;
 
-        // 레그돌, 점프 하지 않았을때 움직일 수 있게 한다.
-        if (!isRagdolled)
+        // 레그돌 하지 않았을때, 떨어지고 않았을때 움직일 수 있게 한다.
+        if (!isRagdolled && !isFalling)
         {
             if (normalizedMoveVector.magnitude >= 0.1f)
             {
@@ -129,7 +130,7 @@ public class Player : MonoBehaviour
     void Jump()
     {
         // 무한 점프를 막아야 한다. 점프 버튼을 누르고 점프를 하지 않았을 때, 구르기 도중에 실행되지 않아야 한다.
-        if (getJumpingButton && !isJumping && !isRolling)
+        if (getJumpingButton && !isJumping && !isRolling && !isRagdolled && !isFalling)
         {
             mainRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             animator.SetBool("isJumping", true);
@@ -175,6 +176,7 @@ public class Player : MonoBehaviour
             animator.SetBool("isJumping", false);
             isJumping = false;
             //땅에 있다.
+            isFalling = false;
             isGrounded = true;
         }
 
@@ -182,6 +184,7 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isJumping", false);
             isJumping = false;
+            isFalling = false;
             isGrounded = false;
         }
 
@@ -221,6 +224,7 @@ public class Player : MonoBehaviour
         {
             //print("[UI] 죽는 로직이 생성되고 다시 시작한다.");
             mainRigidbody.AddForce(collisionVector * 5, ForceMode.Impulse);
+            Debug.Log(isRagdolled);
             GameManager.instance.GameOver();
         }
     }
@@ -235,13 +239,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    // 플레이어가 특정 위치까지 떨어지면 레그돌 후 종료한다.
     void FallDown()
     {
+        // 낭떨어지에서 떨어질 때
         if (mainRigidbody.position.y < -20f)
         {
             PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
+        }
+
+        // 플레이어가 일정 속력에서 떨어질때 못움직이게 한다.
+        if (mainRigidbody.velocity.y < -7)
+        {
+            // 점프 모션을 실행한다. 떨어지는 모션
+            animator.SetBool("isJumping", true);
+            animator.SetTrigger("isJumped");
+            isFalling = true;
         }
     }
 
