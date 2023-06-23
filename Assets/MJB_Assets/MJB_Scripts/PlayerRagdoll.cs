@@ -39,8 +39,6 @@ public class PlayerRagdoll : MonoBehaviour
     public float timeToWakeUp = 5f;
 
 
-
-
     //클립의 이름을 가져오고 싶다.
     [SerializeField]
     private string standingUpClipName;

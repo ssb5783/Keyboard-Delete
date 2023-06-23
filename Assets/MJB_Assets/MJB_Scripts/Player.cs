@@ -20,8 +20,21 @@ using UnityEngine;
 // 플레이어가 트랩에 부딪혔을 때 움직이지 못하고 안 구르게 만들고 싶다.
 public class Player : MonoBehaviour
 {
+    public const float ZERO_VALUE = 0;
+    public const string TRAP_NAME = "Trap";
+    public const string ENEMY_NAME = "Enemy";
+    public const string FLOOR_NAME = "Floor";
+    public const string IS_JUMPING_NAME = "isJumping";
+    public const string IS_JUMPED_NAME = "isJumped";
+    public const float FALL_OFF_MAX_VALUE = -20f;
+    public const float FALL_VELOCITY_MAX_VALUE = -7f;
+    public const float MOVE_MIN_MAGNITUDE = 0.1f;
+    public const float MOVE_DAMPING_TIME = 0.08f;
+    public const float DAMAGED_MIN_VELOCITY = 1f;
+
     public float speed = 5f;
     public float jumpPower = 5f;
+    public float damagedPower = 5f;
 
     //일정 시간이 되면 일어난다
     public float timeToWakeUp = 3f;
@@ -35,7 +48,6 @@ public class Player : MonoBehaviour
     private bool getSuicideKey;
     private bool isRolling;
     private bool isJumping;
-    // 플레이어가 땅에 있는가?
     private bool isGrounded;
     private bool isRagdolled;
     private bool isFalling;
@@ -44,8 +56,6 @@ public class Player : MonoBehaviour
     private Rigidbody mainRigidbody;
     private Animator animator;
     public Transform mainCamera;
-
-    // 점프 오디오 소스
     public AudioSource activeSoundEffect;
 
     void Awake()
@@ -54,8 +64,6 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
     }
-
-    // 충돌 물리를 제어하고 싶다.
     void FreezeRotation()
     {
 
@@ -89,13 +97,13 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        moveVector = new Vector3(hAxis, 0, vAxis);
+        moveVector = new Vector3(hAxis, ZERO_VALUE, vAxis);
         Vector3 normalizedMoveVector = moveVector.normalized;
 
         // 레그돌 하지 않았을때, 떨어지고 않았을때 움직일 수 있게 한다.
         if (!isRagdolled && !isFalling)
         {
-            if (normalizedMoveVector.magnitude >= 0.1f)
+            if (normalizedMoveVector.magnitude >= MOVE_MIN_MAGNITUDE)
             {
                 MoveSmooth(normalizedMoveVector);
             }
@@ -105,7 +113,7 @@ public class Player : MonoBehaviour
             // 벡터 속도의 크기를 강제로 0 ~ 1로 변경한다.
 
             //땅에 있을때만 방향 키를 눌렀을 때 애니메이션을 실행한다.
-            animator.SetFloat("isRunning", clamp01Velocity, 0.08f, Time.deltaTime);
+            animator.SetFloat("isRunning", clamp01Velocity, MOVE_DAMPING_TIME, Time.deltaTime);
 
         }
     }
@@ -119,10 +127,10 @@ public class Player : MonoBehaviour
         float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
         // 플레이어의 회전을 만든다. (y축을 기준으로 회전한다.)
-        transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+        transform.rotation = Quaternion.Euler(ZERO_VALUE, smoothAngle, ZERO_VALUE);
 
         //카메라의 회전 방향을 고려한 앞 방향으로 이동을 하고싶다.
-        Vector3 cameraMoveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        Vector3 cameraMoveDir = Quaternion.Euler(ZERO_VALUE, targetAngle, ZERO_VALUE) * Vector3.forward;
 
         transform.position += cameraMoveDir * speed * Time.deltaTime;
     }
@@ -133,8 +141,8 @@ public class Player : MonoBehaviour
         if (getJumpingButton && !isJumping && !isRolling && !isRagdolled && !isFalling)
         {
             mainRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            animator.SetBool("isJumping", true);
-            animator.SetTrigger("isJumped");
+            animator.SetBool(IS_JUMPING_NAME, true);
+            animator.SetTrigger(IS_JUMPED_NAME);
             // 활동 소리를 플레이 한다.
             activeSoundEffect.Play();
             isJumping = true;
@@ -156,12 +164,11 @@ public class Player : MonoBehaviour
             // 땅에있다.
             isGrounded = true;
 
-            // 구르기 실행 시간차를 생성하여 연속 누르는 것을 막는다.
             Invoke("RollOut", 1.5f);
         }
     }
 
-    // 구르는 것이 끝나는 것을 지정
+
     void RollOut()
     {
         speed *= 0.5f;
@@ -171,34 +178,33 @@ public class Player : MonoBehaviour
     // 바닥에 닿았을 때 점프를 초기화 한다.
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.tag == FLOOR_NAME)
         {
-            animator.SetBool("isJumping", false);
+            animator.SetBool(IS_JUMPING_NAME, false);
             isJumping = false;
             //땅에 있다.
             isFalling = false;
             isGrounded = true;
         }
 
-        if (collision.gameObject.tag == "Trap")
+        if (collision.gameObject.tag == TRAP_NAME)
         {
-            animator.SetBool("isJumping", false);
+            animator.SetBool(IS_JUMPING_NAME, false);
             isJumping = false;
             isFalling = false;
             isGrounded = false;
         }
 
         //적이랑 충돌하면 체력을 깍는다.
-        if (collision.gameObject.tag == "Trap" || collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == TRAP_NAME || collision.gameObject.tag == ENEMY_NAME)
         {
             Vector3 collisionVector = transform.position - collision.transform.position;
 
             // 물체의 속도가 일정 이상일 때 데미지를 입는다.
-            if (collision.rigidbody.velocity.magnitude > 1f)
-            {
-                StartCoroutine(OnDamage(collisionVector));
-
-            }
+            //if (collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
+            //{
+            StartCoroutine(OnDamage(collisionVector));
+            //}
         }
     }
 
@@ -214,22 +220,20 @@ public class Player : MonoBehaviour
 
         PlayerRagdoll.instance.EnableRagdoll();
         isRagdolled = true;
-        if (PlayerHP.instance.HP > 0)
+        if (PlayerHP.instance.HP > ZERO_VALUE)
         {
             //print("[애니메이션] 플레이어가 넘어진다.");
-            mainRigidbody.AddForce(collisionVector * 5, ForceMode.Impulse);
+            mainRigidbody.AddForce(collisionVector * damagedPower, ForceMode.Impulse);
 
         }
         else
         {
             //print("[UI] 죽는 로직이 생성되고 다시 시작한다.");
-            mainRigidbody.AddForce(collisionVector * 5, ForceMode.Impulse);
-            Debug.Log(isRagdolled);
+            mainRigidbody.AddForce(collisionVector * damagedPower, ForceMode.Impulse);
             GameManager.instance.GameOver();
         }
     }
 
-    // G키를 눌렀을 때 자살 기능을 구현하고 싶다.
     void Suicide()
     {
         if (getSuicideKey)
@@ -238,39 +242,35 @@ public class Player : MonoBehaviour
             GameManager.instance.GameOver();
         }
     }
-
     void FallDown()
     {
         // 낭떨어지에서 떨어질 때
-        if (mainRigidbody.position.y < -20f)
+        if (mainRigidbody.position.y < FALL_OFF_MAX_VALUE)
         {
             PlayerRagdoll.instance.EnableRagdoll();
             GameManager.instance.GameOver();
         }
 
         // 플레이어가 일정 속력에서 떨어질때 못움직이게 한다.
-        if (mainRigidbody.velocity.y < -7)
+        if (mainRigidbody.velocity.y < FALL_VELOCITY_MAX_VALUE)
         {
             // 점프 모션을 실행한다. 떨어지는 모션
-            animator.SetBool("isJumping", true);
-            animator.SetTrigger("isJumped");
+            animator.SetBool(IS_JUMPING_NAME, true);
+            animator.SetTrigger(IS_JUMPED_NAME);
             isFalling = true;
         }
     }
-
     void WakeUp()
     {
         timeToWakeUp -= Time.deltaTime;
-        if (timeToWakeUp <= 0 && isRagdolled)
+        if (timeToWakeUp <= ZERO_VALUE && isRagdolled)
         {
             PlayerRagdoll.instance.TagPositionToHips();
             PlayerRagdoll.instance.PutBoneTransform(PlayerRagdoll.instance.ragdollBoneTransform);
             PlayerRagdoll.instance.ResetBones();
-            PlayerRagdoll.instance.elaspedResetBonesTime = 0;
+            PlayerRagdoll.instance.elaspedResetBonesTime = ZERO_VALUE;
             timeToWakeUp = 3f;
             isRagdolled = false;
         }
-
     }
-
 }
