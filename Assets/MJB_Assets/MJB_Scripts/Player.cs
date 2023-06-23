@@ -178,6 +178,7 @@ public class Player : MonoBehaviour
     // 바닥에 닿았을 때 점프를 초기화 한다.
     private void OnCollisionEnter(Collision collision)
     {
+        Vector3 collisionVector = transform.position - collision.transform.position;
         if (collision.gameObject.tag == FLOOR_NAME)
         {
             animator.SetBool(IS_JUMPING_NAME, false);
@@ -189,6 +190,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.tag == TRAP_NAME)
         {
+            StartCoroutine(OnDamage(collisionVector));
             animator.SetBool(IS_JUMPING_NAME, false);
             isJumping = false;
             isFalling = false;
@@ -196,15 +198,13 @@ public class Player : MonoBehaviour
         }
 
         //적이랑 충돌하면 체력을 깍는다.
-        if (collision.gameObject.tag == TRAP_NAME || collision.gameObject.tag == ENEMY_NAME)
+        if (collision.gameObject.tag == ENEMY_NAME)
         {
-            Vector3 collisionVector = transform.position - collision.transform.position;
-
             // 물체의 속도가 일정 이상일 때 데미지를 입는다.
-            //if (collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
-            //{
-            StartCoroutine(OnDamage(collisionVector));
-            //}
+            if (collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
+            {
+                StartCoroutine(OnDamage(collisionVector));
+            }
         }
     }
 
