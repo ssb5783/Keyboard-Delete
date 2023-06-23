@@ -64,7 +64,7 @@ public class SSB_Enemy_New : MonoBehaviour
         }
 
         //현재 state print
-        print("state :" + m_state); 
+        //print("state :" + m_state); 
     }
     //Idle에서 Move로 전환되는 애니메이션 처리를 하고싶다 -> 애니메이션 컨트롤러 필요
     //필요속성 : Animator Controller
@@ -138,7 +138,7 @@ public class SSB_Enemy_New : MonoBehaviour
         if(attackDelayTime > currentTime)
         {
             currentTime = 0;
-            print("attack!");
+            //print("attack!");
             //플레이어 방향으로 힘
             //애니메이션 넣기
             anim.SetTrigger("Attack");
@@ -154,7 +154,7 @@ public class SSB_Enemy_New : MonoBehaviour
         currentTime += Time.deltaTime;
         if(currentTime > 2)
         {
-        print("FalllDown check");
+        //print("FalllDown check");
         m_state = EnemyState.SetStateMove;
         anim.SetTrigger("Idle");
             currentTime = 0;
@@ -178,14 +178,14 @@ public class SSB_Enemy_New : MonoBehaviour
     private void Die()
     {
         //Die - 래그돌
-        print("Die!");
+        //print("Die!");
         Destroy(gameObject,3);
     }
 
     private void Roar()
     {
         //Roar - 성공 시
-        print("Roar!");
+        //print("Roar!");
         anim.SetTrigger("Roar");
     }
 
