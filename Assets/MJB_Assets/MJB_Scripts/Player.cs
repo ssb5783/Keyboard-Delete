@@ -202,10 +202,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == ENEMY_NAME)
         {
             // 물체의 속도가 일정 이상일 때 데미지를 입는다.
-            if (collision.rigidbody && collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
-            {
+            //if (collision.rigidbody && collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
+            //{
                 StartCoroutine(OnDamage(collisionVector));
-            }
+            //}
         }
     }
 
