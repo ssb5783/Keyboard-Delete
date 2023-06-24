@@ -37,7 +37,11 @@ public class ChickenBullet : MonoBehaviour
             Destroy(gameObject, 4);
         }
 
-        collision.rigidbody.AddForce(rigid.velocity * power, ForceMode.VelocityChange);
+/*        if (collision.gameObject.layer == LayerMask.NameToLayer(Player.ENEMY_NAME))
+        {
+            collision.rigidbody.AddForce(rigid.velocity * power, ForceMode.VelocityChange);
+
+        }*/
 
     }
 }
