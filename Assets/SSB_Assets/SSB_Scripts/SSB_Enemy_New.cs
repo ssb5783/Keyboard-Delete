@@ -190,7 +190,7 @@ public class SSB_Enemy_New : MonoBehaviour
         //print("Die!");
         Vector3 dir = target.gameObject.transform.position - transform.position;
         dir.Normalize();
-        gameObject.GetComponent<Rigidbody>().AddForce(-dir * 3, ForceMode.Impulse);
+        gameObject.GetComponent<Rigidbody>().AddForce(-dir * 5, ForceMode.Impulse);
         GameObject explosion = Instantiate(explosionFactory);
         explosion.transform.position = transform.position;
         Destroy(gameObject,3);
