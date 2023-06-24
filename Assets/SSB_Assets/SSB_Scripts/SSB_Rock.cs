@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,5 +14,10 @@ public class SSB_Rock : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Destroy(gameObject, 4);
     }
 }
