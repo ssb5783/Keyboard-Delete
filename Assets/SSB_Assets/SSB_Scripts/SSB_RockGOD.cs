@@ -31,5 +31,6 @@ public class SSB_RockGOD : MonoBehaviour
             currentTime = 0;
             creatTime = Random.Range(1, 6);
         }
+
     }
 }

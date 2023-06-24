@@ -26,7 +26,7 @@ public class SSB_ThornWood : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         print(collision);
-        Destroy(collision.gameObject);
+        //Destroy(collision.gameObject);
         
     }
 }

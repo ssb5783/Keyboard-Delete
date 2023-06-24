@@ -147,7 +147,7 @@ public class SSB_Enemy_New : MonoBehaviour
 
             Vector3 dir = target.gameObject.transform.position - transform.position;
             dir.Normalize();
-            target.gameObject.GetComponent<Rigidbody>().AddForce(dir * 10, ForceMode.Impulse);
+            target.gameObject.GetComponent<Rigidbody>().AddForce(dir * 3, ForceMode.Impulse);
             PlayerHP.instance.HP--;
 
         }
