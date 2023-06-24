@@ -10,6 +10,10 @@ public class SSB_Enemy_New : MonoBehaviour
     //Move - 일정거리안에 있다면 플레이어 쪽으로 달려간다
     //Attack - 발차기를 한다 
     //Die - 래그돌
+
+    //죽을 때 폭발효과 발생시키고 싶다.
+    //필요속성 : 폭발효과 공장
+    public GameObject explosionFactory;
     public enum EnemyState
     {
         Idle,
@@ -184,6 +188,11 @@ public class SSB_Enemy_New : MonoBehaviour
     {
         //Die - 래그돌
         //print("Die!");
+        Vector3 dir = target.gameObject.transform.position - transform.position;
+        dir.Normalize();
+        gameObject.GetComponent<Rigidbody>().AddForce(-dir * 3, ForceMode.Impulse);
+        GameObject explosion = Instantiate(explosionFactory);
+        explosion.transform.position = transform.position;
         Destroy(gameObject,3);
     }
 
