@@ -199,7 +199,6 @@ public class Player : MonoBehaviour
         }
 
         //적이랑 충돌하면 체력을 깍는다.
-        if (collision.gameObject.layer == LayerMask.NameToLayer(ENEMY_NAME))
         if (collision.gameObject.tag == ENEMY_NAME)
         {
             // 물체의 속도가 일정 이상일 때 데미지를 입는다.
