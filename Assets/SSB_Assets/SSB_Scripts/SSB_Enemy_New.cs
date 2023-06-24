@@ -148,6 +148,7 @@ public class SSB_Enemy_New : MonoBehaviour
             Vector3 dir = target.gameObject.transform.position - transform.position;
             dir.Normalize();
             target.gameObject.GetComponent<Rigidbody>().AddForce(dir * 10, ForceMode.Impulse);
+            
 
         }
 
@@ -206,7 +207,7 @@ public class SSB_Enemy_New : MonoBehaviour
         {
            
             print("충돌성공");
-            
+            PlayerHP.instance.HP--;//플레이어의 HP를 깎는다
             //상태를 Move로 전환한다
             m_state = EnemyState.FallDown;
             anim.SetTrigger("FallDown");

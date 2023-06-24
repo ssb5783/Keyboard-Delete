@@ -51,7 +51,7 @@ public class SSB_FrontJumpTrapFloor : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        collision.gameObject.GetComponent<Rigidbody>().velocity = (-Vector3.forward ) * JumpPower;  
+        collision.gameObject.GetComponent<Rigidbody>().velocity = -(Vector3.forward + Vector3.right ) * JumpPower;  
         isUp = true;
         targetRotation = Quaternion.Euler(0, 0, 30);
 
