@@ -19,7 +19,7 @@ public class SSB_FirstState : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other);
+        //print(other);
         Destroy(other.gameObject, 3);
     }
 }

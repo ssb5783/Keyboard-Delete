@@ -14,6 +14,9 @@ public class SSB_Enemy_New : MonoBehaviour
     //죽을 때 폭발효과 발생시키고 싶다.
     //필요속성 : 폭발효과 공장
     public GameObject explosionFactory;
+
+    //무브 사운드를 넣고싶다
+     AudioSource audiosource;
     public enum EnemyState
     {
         Idle,
@@ -30,12 +33,19 @@ public class SSB_Enemy_New : MonoBehaviour
 
     //애니메이션 넣기 -> 필요한 것 애니메이터 컨트롤러 -> 애니메이터
     Animator anim;
+
+    private void Awake()
+    {
+        //오디오 소스 가져오기
+        audiosource = GetComponent<AudioSource>();
+    }
     void Start()
     {
         //캐릭터콘트롤러
         cc = GetComponent<CharacterController>();
         //애니메이터는 에너미의 자식 컴포넌트에 있다 그 중 젤 위에 애를 가져오는것
         anim = GetComponentInChildren<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -120,22 +130,21 @@ public class SSB_Enemy_New : MonoBehaviour
         {
             speed = 10; //속도를  빠르게 변화시키고
             cc.SimpleMove(dir * speed);
-
-
+            //사운드를 재생한다
+            
+            audiosource.Play();
+          
             m_state = EnemyState.Attack;
         }
-
-         
-
     }
 
     //일정시간에 한번씩 공격하고싶다
     //필요속성 : 공격대기시간
     public float attackDelayTime = 2;
     float currentTime = 0;
-    float animTime = 3;
+    //float animTime = 3;
 
-    private void Attack()
+    public void Attack()
     {   
         //일정시간에 한번씩 공격
         currentTime += Time.deltaTime;
@@ -193,7 +202,11 @@ public class SSB_Enemy_New : MonoBehaviour
         gameObject.GetComponent<Rigidbody>().AddForce(-dir * 5, ForceMode.Impulse);
         GameObject explosion = Instantiate(explosionFactory);
         explosion.transform.position = transform.position;
+        Destroy(explosion, 2);
         Destroy(gameObject,3);
+
+        
+        
     }
 
     private void Roar()
@@ -214,7 +227,6 @@ public class SSB_Enemy_New : MonoBehaviour
         //충돌된게  Player라면 FallDown animation 재생 -> Move
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-           
             print("충돌성공");
             PlayerHP.instance.HP--;//플레이어의 HP를 깎는다
             //상태를 Move로 전환한다

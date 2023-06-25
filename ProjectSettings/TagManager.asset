@@ -9,6 +9,7 @@ TagManager:
   - Trap
   - Ground
   - JumpZone
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -35,7 +36,7 @@ TagManager:
   - ThornWood
   - State
   - Enemy
-  - 
+  - Post
   - 
   - 
   - 
