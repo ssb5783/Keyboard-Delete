@@ -9,7 +9,7 @@ public class SSB_JumpTrapFloor : MonoBehaviour
     //스피드
     public float speed = 10;
     //현재시간
-    float currentTime = 0;
+    //float currentTime = 0;
     //특정시간
     public float creatTime = 3;
     //올라갔는지

@@ -16,8 +16,7 @@ public class SSB_Enemy_New : MonoBehaviour
     public GameObject explosionFactory;
 
     //무브 사운드를 넣고싶다
-    AudioSource audiosource;
-    public AudioClip moveSound;
+     AudioSource audiosource;
     public enum EnemyState
     {
         Idle,
@@ -132,7 +131,7 @@ public class SSB_Enemy_New : MonoBehaviour
             speed = 10; //속도를  빠르게 변화시키고
             cc.SimpleMove(dir * speed);
             //사운드를 재생한다
-            audiosource.clip = moveSound;
+            
             audiosource.Play();
           
             m_state = EnemyState.Attack;
@@ -143,9 +142,9 @@ public class SSB_Enemy_New : MonoBehaviour
     //필요속성 : 공격대기시간
     public float attackDelayTime = 2;
     float currentTime = 0;
-    float animTime = 3;
+    //float animTime = 3;
 
-    private void Attack()
+    public void Attack()
     {   
         //일정시간에 한번씩 공격
         currentTime += Time.deltaTime;
