@@ -27,10 +27,13 @@ public class Player : MonoBehaviour
     public const string IS_JUMPING_NAME = "isJumping";
     public const string IS_JUMPED_NAME = "isJumped";
     public const float FALL_OFF_MAX_VALUE = -20f;
-    public const float FALL_VELOCITY_MAX_VALUE = -7f;
+    public const float FALL_VELOCITY_MAX_VALUE = -5.5f;
     public const float MOVE_MIN_MAGNITUDE = 0.1f;
     public const float MOVE_DAMPING_TIME = 0.08f;
-    public const float DAMAGED_MIN_VELOCITY = 1f;
+    public const float DAMAGED_MIN_VELOCITY = 0.1f;
+    // 적의 플레이어를 가져온다.
+    // 스크립트를 가져오고 싶다.
+    private GameObject enemy;
 
     public float speed = 5f;
     public float jumpPower = 5f;
@@ -62,7 +65,8 @@ public class Player : MonoBehaviour
     {
         mainRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-
+        // 애너미를 찾자
+        enemy = GameObject.Find("Enemy");
     }
     void FreezeRotation()
     {
@@ -84,6 +88,16 @@ public class Player : MonoBehaviour
         Roll();
         FallDown();
         WakeUp();
+        DamagedFromEnemy();
+
+    }
+
+    void DamagedFromEnemy()
+    {
+        if (enemy.GetComponent<SSB_Enemy_New>().m_state == SSB_Enemy_New.EnemyState.Attack)
+        {
+            StartCoroutine(OnDamage(Vector3.zero));
+        }
     }
 
     void InitInput()
@@ -199,14 +213,11 @@ public class Player : MonoBehaviour
         }
 
         //적이랑 충돌하면 체력을 깍는다.
-        if (collision.gameObject.layer == LayerMask.NameToLayer(ENEMY_NAME) || collision.gameObject.layer == LayerMask.NameToLayer("ThornWood"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("ThornWood"))
         {
-            // 물체의 속도가 일정 이상일 때 데미지를 입는다.
-            //if (collision.rigidbody && collision.rigidbody.velocity.magnitude > DAMAGED_MIN_VELOCITY)
-            //{
                 StartCoroutine(OnDamage(collisionVector));
-            //}
         }
+
     }
 
     // 코루틴을 사용하여 피격 기능을 구현한다.
@@ -225,7 +236,6 @@ public class Player : MonoBehaviour
         {
             //print("[애니메이션] 플레이어가 넘어진다.");
             mainRigidbody.AddForce(collisionVector * damagedPower, ForceMode.Impulse);
-
         }
         else
         {
