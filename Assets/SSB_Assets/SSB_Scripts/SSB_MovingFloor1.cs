@@ -24,7 +24,7 @@ public class SSB_MovingFloor1 : MonoBehaviour
     {
         
         originPosition = transform.position;
-        targetPosition = transform.position + Vector3.right * 10;
+        targetPosition = transform.position + (-Vector3.up) * 10;
     }
 
     // Update is called once per frame
@@ -58,6 +58,7 @@ public class SSB_MovingFloor1 : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+            rb.velocity = Vector3.zero;
             collision.transform.parent = transform;
             
         }
