@@ -11,6 +11,9 @@ public class SSB_MovingFloor : MonoBehaviour
     public float SecondTime = 6;
     float currentTime;
 
+    Vector3 origionPosition;
+    Vector3 targetPosition;
+
     public Transform lower;
     public Transform upper;
 
@@ -20,6 +23,8 @@ public class SSB_MovingFloor : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        origionPosition = transform.position;
+        //targetPosition = transform.position + Vector3.r
     }
 
     // Update is called once per frame
@@ -52,15 +57,17 @@ public class SSB_MovingFloor : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Rigidbody>();
-            collision.transform.parent = transform;
+            
+            collision.transform.SetParent(transform);
         }
     }
 
     private void OnCollisionExit(Collision collision)
-    {
+    {   
         if(collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.parent = null;
+            print("파괴");
+            collision.transform.SetParent(null);
         }
     }
 }
