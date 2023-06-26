@@ -13,8 +13,7 @@ public class EndTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameManager.instance.CompleteGame();
-            // 게임 오브젝트 플레이어를 삭제한다.
-            Destroy(other.gameObject);
+            // 게임 오브젝트 플레이어를 삭제한다
 
         }
     }

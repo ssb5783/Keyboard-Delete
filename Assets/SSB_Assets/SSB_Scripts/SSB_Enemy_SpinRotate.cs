@@ -10,7 +10,7 @@ public class SSB_Enemy_SpinRotate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class SSB_Enemy_SpinRotate : MonoBehaviour
         // 타겟과의 거리 계산
         float distance = Vector3.Distance(transform.position, target.position);
 
-        if(distance <= followDistance)
+        if (distance <= followDistance)
         {
             Vector3 dir = target.position - transform.position;
             dir.Normalize();

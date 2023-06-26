@@ -94,10 +94,13 @@ public class Player : MonoBehaviour
 
     void DamagedFromEnemy()
     {
-        if (enemy.GetComponent<SSB_Enemy_New>().m_state == SSB_Enemy_New.EnemyState.Attack)
+        if (enemy != null)
         {
-            timeToWakeUp = 3f;
-            StartCoroutine(OnDamage(Vector3.zero));
+            if (enemy.GetComponent<SSB_Enemy_New>().m_state == SSB_Enemy_New.EnemyState.Attack)
+            {
+                timeToWakeUp = 3f;
+                StartCoroutine(OnDamage(Vector3.zero));
+            } 
         }
     }
 
