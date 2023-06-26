@@ -96,6 +96,7 @@ public class Player : MonoBehaviour
     {
         if (enemy.GetComponent<SSB_Enemy_New>().m_state == SSB_Enemy_New.EnemyState.Attack)
         {
+            timeToWakeUp = 3f;
             StartCoroutine(OnDamage(Vector3.zero));
         }
     }
@@ -277,11 +278,11 @@ public class Player : MonoBehaviour
         timeToWakeUp -= Time.deltaTime;
         if (timeToWakeUp <= ZERO_VALUE && isRagdolled)
         {
+            timeToWakeUp = 3f;
             PlayerRagdoll.instance.TagPositionToHips();
             PlayerRagdoll.instance.PutBoneTransform(PlayerRagdoll.instance.ragdollBoneTransform);
             PlayerRagdoll.instance.ResetBones();
             PlayerRagdoll.instance.elaspedResetBonesTime = ZERO_VALUE;
-            timeToWakeUp = 3f;
             isRagdolled = false;
         }
     }
