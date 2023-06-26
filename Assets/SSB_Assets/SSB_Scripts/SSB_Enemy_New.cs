@@ -155,8 +155,7 @@ public class SSB_Enemy_New : MonoBehaviour
             //플레이어 방향으로 힘
             //애니메이션 넣기
             anim.SetTrigger("Attack");
-            //사운드를 재생한다
-            audiosource.Play();
+
             m_state = EnemyState.FallDown;
             anim.SetTrigger("FallDown");
 
@@ -172,7 +171,7 @@ public class SSB_Enemy_New : MonoBehaviour
     private void FallDown()
     {
         currentTime += Time.deltaTime;
-        if (currentTime > 2)
+        if (currentTime > 4)
         {
             //print("FalllDown check");
             m_state = EnemyState.SetStateMove;
@@ -185,7 +184,7 @@ public class SSB_Enemy_New : MonoBehaviour
     {
         //2초 동안 누워있다가 일어난다
         currentTime += Time.deltaTime;
-        if (currentTime > 2)
+        if (currentTime > 4)
         {
             m_state = EnemyState.Move;
             anim.SetTrigger("Move");
@@ -206,12 +205,12 @@ public class SSB_Enemy_New : MonoBehaviour
         explosion.transform.position = transform.position;
         Destroy(explosion, 2);
         Destroy(gameObject, 3);
-        isdead = true;
-        if(this.isdead)
-        {
-            audiosource = GetComponent<AudioSource>();
-            audiosource.Stop();
-        }
+        //isdead = true;
+        //if(this.isdead)
+        //{
+        //    audiosource = GetComponent<AudioSource>();
+        //    audiosource.Stop();
+        //}
 
 
 
@@ -230,6 +229,8 @@ public class SSB_Enemy_New : MonoBehaviour
         //충돌된게 치킨불렛이라면 래그돌 -> 죽음
         if (collision.gameObject.layer == LayerMask.NameToLayer("ChickenBullet"))
         {
+            //사운드를 재생한다
+            audiosource.Play();
             m_state = EnemyState.Die;
         }
         //충돌된게  Player라면 FallDown animation 재생 -> Move
