@@ -234,6 +234,8 @@ public class Player : MonoBehaviour
 
         PlayerHP.instance.HP--;
 
+        timeToWakeUp = 3f;
+
         PlayerRagdoll.instance.EnableRagdoll();
         isRagdolled = true;
         if (PlayerHP.instance.HP > ZERO_VALUE)
