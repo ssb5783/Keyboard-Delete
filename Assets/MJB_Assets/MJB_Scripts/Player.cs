@@ -20,41 +20,23 @@ using UnityEngine;
 // 플레이어가 트랩에 부딪혔을 때 움직이지 못하고 안 구르게 만들고 싶다.
 public class Player : MonoBehaviour
 {
-    public const float ZERO_VALUE = 0;
-    public const string TRAP_NAME = "Trap";
-    public const string ENEMY_NAME = "Enemy";
-    public const string FLOOR_NAME = "Floor";
-    public const string IS_JUMPING_NAME = "isJumping";
-    public const string IS_JUMPED_NAME = "isJumped";
-    public const float FALL_OFF_MAX_VALUE = -20f;
-    public const float FALL_VELOCITY_MAX_VALUE = -5.5f;
-    public const float MOVE_MIN_MAGNITUDE = 0.1f;
-    public const float MOVE_DAMPING_TIME = 0.08f;
-    public const float DAMAGED_MIN_VELOCITY = 0.1f;
-    // 적의 플레이어를 가져온다.
-    // 스크립트를 가져오고 싶다.
-    private GameObject enemy;
+    public readonly string TRAP_NAME = "Trap", ENEMY_NAME = "Enemy", FLOOR_NAME = "Floor";
+    public readonly string IS_JUMPING_NAME = "isJumping", IS_JUMPED_NAME = "isJumped";
+    public readonly float ZERO_VALUE = 0;
+    public readonly float FALL_OFF_MAX_VALUE = -20f, FALL_VELOCITY_MAX_VALUE = -5.5f;
+    public readonly float MOVE_MIN_MAGNITUDE = 0.1f, MOVE_DAMPING_TIME = 0.08f;
+    public readonly float DAMAGED_MIN_VELOCITY = 0.1f;
 
-    public float speed = 5f;
-    public float jumpPower = 5f;
-    public float damagedPower = 5f;
+    public float speed = 5f, jumpPower = 5f, damagedPower = 5f;
 
-    //일정 시간이 되면 일어난다
     public float timeToWakeUp = 3f;
-    private float turnSmoothTime = 0.1f;
-    private float turnSmoothVelocity;
-    private float hAxis;
-    private float vAxis;
+    private float turnSmoothTime = 0.1f, turnSmoothVelocity;
+    private float hAxis, vAxis;
 
-    private bool getJumpingButton;
-    private bool getRollingKey;
-    private bool getSuicideKey;
-    private bool isRolling;
-    private bool isJumping;
-    private bool isGrounded;
-    private bool isRagdolled;
-    private bool isFalling;
+    private bool getJumpingButton, getRollingKey, getSuicideKey;
+    private bool isRolling, isJumping, isGrounded, isRagdolled, isFalling;
 
+    private GameObject enemy;
     private Vector3 moveVector;
     private Rigidbody mainRigidbody;
     private Animator animator;
@@ -100,7 +82,7 @@ public class Player : MonoBehaviour
             {
                 timeToWakeUp = 3f;
                 StartCoroutine(OnDamage(Vector3.zero));
-            } 
+            }
         }
     }
 
@@ -219,7 +201,7 @@ public class Player : MonoBehaviour
         //적이랑 충돌하면 체력을 깍는다.
         if (collision.gameObject.layer == LayerMask.NameToLayer("ThornWood"))
         {
-                StartCoroutine(OnDamage(collisionVector));
+            StartCoroutine(OnDamage(collisionVector));
         }
 
     }
